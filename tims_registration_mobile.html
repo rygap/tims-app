@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TIMS Registration (Mobile-Responsive)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #c41e3a;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #c41e3a;
+      color: white;
+      border: none;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #a31a30;
+    }
+    .success {
+      display: none;
+      padding: 10px;
+      background: #d4edda;
+      color: #155724;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>TIMS Player Registration</h1>
+    <div id="successMessage" class="success">✅ Registration submitted successfully!</div>
+    <form id="regForm">
+      <label>Name</label>
+      <input name="name" required />
+      <label>Age</label>
+      <input name="age" type="number" required />
+      <label>Birthday</label>
+      <input name="birthday" type="date" required />
+      <label>Height (cm)</label>
+      <input name="height" type="number" required />
+      <label>Weight (kg)</label>
+      <input name="weight" type="number" required />
+      <label>Belt Rank</label>
+      <select name="belt" required>
+        <option value="">Select</option>
+        <option>Whitebelt</option>
+        <option>Yellowbelt</option>
+        <option>Bluebelt</option>
+        <option>Redbelt</option>
+        <option>Brownbelt</option>
+        <option>Blackbelt</option>
+      </select>
+      <label>Category</label>
+      <select name="category" required>
+        <option value="">Select</option>
+        <option>Novice</option>
+        <option>Advance 1</option>
+        <option>Advance 2</option>
+      </select>
+      <label>Age Group</label>
+      <select name="ageGroup" required>
+        <option value="">Select</option>
+        <option>Toddler</option>
+        <option>Grade School</option>
+        <option>Cadet</option>
+        <option>Junior</option>
+        <option>Senior</option>
+      </select>
+      <label>Chapter / Team</label>
+      <input name="chapter" required />
+      <label>Coach Name</label>
+      <input name="coach" required />
+      <label>PTA NCC No.</label>
+      <input name="ncc" required />
+      <label>Last Promotion Date</label>
+      <input name="promotion" type="date" required />
+      <label>Parent’s Contact No. (if minor)</label>
+      <input name="parentContact" />
+      <label>Email Address</label>
+      <input name="email" type="email" required />
+      <label>Profile Photo URL</label>
+      <input name="photoUrl" type="url" />
+      <label>Medical Clearance URL (optional)</label>
+      <input name="medicalUrl" type="url" />
+      <label>Payment Proof URL</label>
+      <input name="paymentProofUrl" type="url" required />
+      <label>Payment Option</label>
+      <select name="paymentOption" required>
+        <option value="">Select</option>
+        <option>GCash</option>
+        <option>Card</option>
+        <option>Bank Transfer</option>
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById("regForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      fetch("https://script.google.com/macros/s/AKf12345XYZabcDEF/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(response => {
+        if (response.ok) {
+          document.getElementById("successMessage").style.display = "block";
+          form.reset();
+          setTimeout(() => window.location.href = "thankyou.html", 1500);
+        } else {
+          alert("Error submitting form.");
+        }
+      }).catch(error => {
+        alert("Error connecting to server.");
+        console.error(error);
+      });
+    });
+  </script>
+</body>
+</html>
